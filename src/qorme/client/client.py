@@ -5,6 +5,8 @@ import logging
 from typing import TYPE_CHECKING
 from uuid import uuid4
 
+from qorme import __version__ as qorme_version
+
 from .dsn import DSN
 
 if TYPE_CHECKING:
@@ -18,8 +20,7 @@ logger = logging.getLogger(__name__)
 
 
 class Client:
-    # TODO: Don't harcode, pull from package version
-    user_agent = "Qorme-Python/0.1.0"
+    user_agent = f"Qorme-Python/{qorme_version}"
 
     def __init__(
         self,

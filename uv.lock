@@ -1181,7 +1181,7 @@ wheels = [
 
 [[package]]
 name = "qorme"
-version = "0.1.0"
+version = "0.1.0a1"
 source = { editable = "." }
 dependencies = [
     { name = "httpx", extra = ["http2"] },
@@ -1248,7 +1248,7 @@ test = [
 
 [[package]]
 name = "qorme-django"
-version = "0.1.0"
+version = "0.1.0a1"
 source = { editable = "integrations/qorme-django" }
 dependencies = [
     { name = "django" },

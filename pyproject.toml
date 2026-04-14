@@ -1,6 +1,6 @@
 [project]
 name = "qorme"
-version = "0.1.0"
+version = "0.1.0a1"
 description = "ORM observability and automated optimization tool for Python ORM/drivers."
 readme = "README.md"
 authors = [
