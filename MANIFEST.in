@@ -1,0 +1,9 @@
+exclude *
+recursive-exclude * *
+
+include LICENSE
+include MANIFEST.in
+include README.md
+include pyproject.toml
+
+recursive-include src/qorme *.py *.h *.c

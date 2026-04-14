@@ -1,0 +1,22 @@
+[run]
+source = qorme_django
+omit =
+    */tests/*
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    def __str__
+    raise NotImplementedError
+    if __name__ == .__main__.:
+    pass
+    raise ImportError
+    except ImportError:
+    def main\(\):
+
+[html]
+directory = coverage_html
+
+[xml]
+output = coverage.xml

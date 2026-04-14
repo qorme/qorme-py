@@ -1,0 +1,10 @@
+{% load test_app_tags %}
+
+<div>
+    <h2>Address:</h2>
+    {% address store.address %}
+    {% if store.manager %}
+        <h2>TrackingManager:</h2>
+        {% include "test_app/includes/staff_member.html" with staff_member=store.manager %}
+    {% endif %}
+</div>

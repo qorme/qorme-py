@@ -1,0 +1,115 @@
+[project]
+name = "qorme"
+version = "0.1.0"
+description = "ORM observability and automated optimization tool for Python ORM/drivers."
+readme = "README.md"
+authors = [
+    { name = "Qorme", email = "hello@qorme.com" }
+]
+license = "Apache-2.0"
+requires-python = ">=3.10"
+dependencies = [
+    "msgspec>=0.19",
+    "typing-extensions>=4.12",
+    "wrapt>=1.17",
+    "xxhash>=3.5",
+    "isal; platform.machine == 'x86_64' or platform.machine == 'AMD64' or platform.machine == 'aarch64'",
+    "httpx[http2]>=0.28",
+    "httpx-retries>=0.4",
+    "httpx-sse>=0.4",
+]
+
+[dependency-groups]
+dev = [
+    "ty>=0.0.29",
+    "django-stubs>=4.2.7",
+    "factory-boy>=3.3",
+    # Optional integration imports (see qorme-django contrib); real packages for `ty` — not vendored stubs.
+    "uvloop>=0.19",
+    "django-taggit>=4.0",
+    "wagtail>=6.0",
+]
+lint = [
+    "black>=26",
+    "ruff>=0.15",
+]
+test = [
+    "coverage>=7.13",
+    "psycopg",
+    "celery",
+    "psycopg2-binary",
+]
+
+[tool.uv]
+default-groups = ["lint", "test", "dev"]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+ext-modules = [
+  {name = "qorme.utils.lru_cache", sources = ["src/qorme/utils/lru_cache.c"]},
+  {name = "qorme.utils.traceback", sources = ["src/qorme/utils/traceback.c"]},
+  {name = "qorme.utils.bitset", sources = ["src/qorme/utils/bitset.c"]}
+]
+
+[tool.uv.workspace]
+members = ["integrations/*"]
+
+[tool.black]
+line-length = 100
+target-version = ['py310']
+include = '\.pyi?$'
+extend-exclude = '''
+# A regex preceded with ^/ will apply only to files and directories
+# in the root of the project.
+^/docs
+'''
+
+[tool.ruff]
+# Same as Black.
+line-length = 100
+target-version = "py310"
+
+# Enable pycodestyle ('E'), pyflakes ('F'),
+# and a subset of the mccabe ('C90') rules.
+lint.select = ["E", "F", "C90", "I", "N", "B", "W", "UP", "FA100"]
+lint.ignore = [
+    "B008",    # Do not perform function call in argument defaults
+]
+
+# Allow unused variables when underscore-prefixed.
+lint.dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+    "*/migrations/*",
+]
+
+[tool.ruff.lint.mccabe]
+# Unlike Flake8, default to a complexity level of 10.
+max-complexity = 10
+
+[tool.ruff.lint.isort]
+known-first-party = ["qorme", "qorme_django"]

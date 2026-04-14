@@ -1,0 +1,260 @@
+[
+    {
+        "model": "test_app.language",
+        "pk": 1,
+        "fields": {
+            "last_updated_at": "2025-01-12T10:27:59.996Z",
+            "name": "Abkhazian"
+        }
+    },
+    {
+        "model": "test_app.language",
+        "pk": 2,
+        "fields": {
+            "last_updated_at": "2025-01-12T10:28:00.008Z",
+            "name": "Uighur"
+        }
+    },
+    {
+        "model": "test_app.language",
+        "pk": 3,
+        "fields": {
+            "last_updated_at": "2025-01-12T10:28:00.019Z",
+            "name": "Burmese"
+        }
+    },
+    {
+        "model": "test_app.language",
+        "pk": 4,
+        "fields": {
+            "last_updated_at": "2025-01-12T10:28:00.021Z",
+            "name": "Uzbek"
+        }
+    },
+    {
+        "model": "test_app.language",
+        "pk": 5,
+        "fields": {
+            "last_updated_at": "2025-01-12T10:28:00.030Z",
+            "name": "Chuvash"
+        }
+    },
+    {
+        "model": "test_app.language",
+        "pk": 6,
+        "fields": {
+            "last_updated_at": "2025-01-12T10:28:00.033Z",
+            "name": "Navajo"
+        }
+    },
+    {
+        "model": "test_app.country",
+        "pk": 1,
+        "fields": {
+            "last_updated_at": "2025-01-12T10:30:16.312Z",
+            "country": "Kazakhstan"
+        }
+    },
+    {
+        "model": "test_app.country",
+        "pk": 2,
+        "fields": {
+            "last_updated_at": "2025-01-12T10:30:16.382Z",
+            "country": "Afghanistan"
+        }
+    },
+    {
+        "model": "test_app.country",
+        "pk": 3,
+        "fields": {
+            "last_updated_at": "2025-01-12T10:30:16.412Z",
+            "country": "Kyrgyz Republic"
+        }
+    },
+    {
+        "model": "test_app.city",
+        "pk": 1,
+        "fields": {
+            "last_updated_at": "2025-01-12T10:30:16.353Z",
+            "city": "Willieton",
+            "country": 1
+        }
+    },
+    {
+        "model": "test_app.city",
+        "pk": 2,
+        "fields": {
+            "last_updated_at": "2025-01-12T10:30:16.387Z",
+            "city": "Jameston",
+            "country": 2
+        }
+    },
+    {
+        "model": "test_app.city",
+        "pk": 3,
+        "fields": {
+            "last_updated_at": "2025-01-12T10:30:16.417Z",
+            "city": "Melissaburgh",
+            "country": 3
+        }
+    },
+    {
+        "model": "test_app.address",
+        "pk": 1,
+        "fields": {
+            "last_updated_at": "2025-01-12T10:30:16.360Z",
+            "address": "38951 Bates Orchard",
+            "address_2": "Apt. 734",
+            "district": "Colorado",
+            "city": 1,
+            "postal_code": "62263",
+            "phone": "+1555000000"
+        }
+    },
+    {
+        "model": "test_app.address",
+        "pk": 2,
+        "fields": {
+            "last_updated_at": "2025-01-12T10:30:16.393Z",
+            "address": "27507 Austin Coves",
+            "address_2": "Apt. 604",
+            "district": "Alabama",
+            "city": 2,
+            "postal_code": "62822",
+            "phone": "+1555000001"
+        }
+    },
+    {
+        "model": "test_app.address",
+        "pk": 3,
+        "fields": {
+            "last_updated_at": "2025-01-12T10:30:16.422Z",
+            "address": "16937 Donald Ville",
+            "address_2": "Suite 655",
+            "district": "Georgia",
+            "city": 3,
+            "postal_code": "93151",
+            "phone": "+1555000002"
+        }
+    },
+    {
+        "model": "test_app.film",
+        "pk": 1,
+        "fields": {
+            "last_updated_at": "2025-01-12T10:28:00.015Z",
+            "title": "Reverse-engineered tertiary projection",
+            "slug": "control-pressure",
+            "description": "Toward tax pretty very. During own scene word. Control international give.",
+            "release_year": 1907,
+            "language": 1,
+            "original_language": 2,
+            "rental_duration": "00:00:00",
+            "rental_rate": "7.03",
+            "length": 132,
+            "replacement_cost": "24.07",
+            "rating": "G",
+            "special_features": "book,sister,strategy",
+            "imdb_url": "http://johnson.com/",
+            "actors": [],
+            "categories": []
+        }
+    },
+    {
+        "model": "test_app.film",
+        "pk": 2,
+        "fields": {
+            "last_updated_at": "2025-01-12T10:28:00.026Z",
+            "title": "Fully-configurable composite benchmark",
+            "slug": "throughout-pay",
+            "description": "Camera agency stay more fund defense picture.",
+            "release_year": 1923,
+            "language": 3,
+            "original_language": 4,
+            "rental_duration": "00:00:00",
+            "rental_rate": "4.78",
+            "length": 120,
+            "replacement_cost": "20.47",
+            "rating": "G",
+            "special_features": "physical,become,police",
+            "imdb_url": "https://www.marquez.org/",
+            "actors": [],
+            "categories": []
+        }
+    },
+    {
+        "model": "test_app.film",
+        "pk": 3,
+        "fields": {
+            "last_updated_at": "2025-01-12T10:28:00.038Z",
+            "title": "Decentralized client-server toolset",
+            "slug": "employee-rather",
+            "description": "Operation audience visit. Attorney writer push significant well. Crime set investment exactly.",
+            "release_year": 1942,
+            "language": 5,
+            "original_language": 6,
+            "rental_duration": "00:00:00",
+            "rental_rate": "9.36",
+            "length": 126,
+            "replacement_cost": "12.42",
+            "rating": "PG-13",
+            "special_features": "general,answer,home",
+            "imdb_url": "http://anthony.net/",
+            "actors": [],
+            "categories": []
+        }
+    },
+    {
+        "model": "test_app.store",
+        "pk": 1,
+        "fields": {
+            "last_updated_at": "2025-01-12T10:30:16.367Z",
+            "address": 1,
+            "manager": null
+        }
+    },
+    {
+        "model": "test_app.store",
+        "pk": 2,
+        "fields": {
+            "last_updated_at": "2025-01-12T10:30:16.399Z",
+            "address": 2,
+            "manager": null
+        }
+    },
+    {
+        "model": "test_app.store",
+        "pk": 3,
+        "fields": {
+            "last_updated_at": "2025-01-12T10:30:16.428Z",
+            "address": 3,
+            "manager": null
+        }
+    },
+    {
+        "model": "test_app.inventory",
+        "pk": 1,
+        "fields": {
+            "last_updated_at": "2025-01-12T10:30:16.373Z",
+            "film": 1,
+            "store": 1
+        }
+    },
+    {
+        "model": "test_app.inventory",
+        "pk": 2,
+        "fields": {
+            "last_updated_at": "2025-01-12T10:30:16.404Z",
+            "film": 2,
+            "store": 2
+        }
+    },
+    {
+        "model": "test_app.inventory",
+        "pk": 3,
+        "fields": {
+            "last_updated_at": "2025-01-12T10:30:16.433Z",
+            "film": 3,
+            "store": 3
+        }
+    }
+]

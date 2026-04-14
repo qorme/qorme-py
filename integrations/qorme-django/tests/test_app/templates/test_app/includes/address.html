@@ -1,0 +1,12 @@
+<div>
+    <p>{{ address.address }}</p>
+    {% if address.address_2 %}
+        <p>{{ address.address_2 }}</p>
+    {% endif %}
+    <p>{{ address.district }}</p>
+    <p>{{ address.city.name }}</p>
+    {% if address.postal_code %}
+        <p>{{ address.postal_code }}</p>
+    {% endif %}
+    <p>Phone: {{ address.phone }}</p>
+</div>

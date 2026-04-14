@@ -1,0 +1,27 @@
+[project]
+name = "qorme-django"
+version = "0.1.0"
+description = "Django integration for Qorme."
+readme = "README.md"
+authors = [
+    { name = "Qorme", email = "hello@qorme.com" }
+]
+license = "Apache-2.0"
+requires-python = ">=3.10"
+dependencies = [
+    "django>=4.2",
+    "qorme>=0.1.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv.sources]
+qorme = {workspace = true}
+
+[dependency-groups]
+dev = [
+    "factory-boy>=3.3",
+    "pillow>=11.1",
+]

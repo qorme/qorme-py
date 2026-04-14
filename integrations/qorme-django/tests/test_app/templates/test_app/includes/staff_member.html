@@ -1,0 +1,11 @@
+{% load test_app_tags %}
+
+<div class="staff-member">
+    {% if staff_member.picture %}
+        <img src="{{ staff_member.picture.url }}" alt="{{ staff_member.user.get_full_name }}" class="staff-photo">
+    {% endif %}
+    <p>Name: {{ staff_member.user.get_full_name }}</p>
+    <p>Username: {{ staff_member.user.username }}</p>
+    <h3>Contact Information:</h3>
+    {% address staff_member.address %}
+</div>
