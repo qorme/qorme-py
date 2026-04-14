@@ -3,12 +3,16 @@
 # Default Python interpreter
 PYTHON := python
 
-ty:
-	uv run ty check src integrations/qorme-django/src
+lint:
+	uv run ruff check .
+	uv run black --check .
 
 format:
 	uv run black .
 	uv run ruff check --fix .
+
+ty:
+	uv run ty check src integrations/qorme-django/src
 
 test:
 	uv run python -m unittest
