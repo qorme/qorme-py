@@ -32,18 +32,23 @@ Specify your DSN and the active tracking domains:
 
 QORME = {
     "domains": [
-        "ingest",             # Required for data delivery
-        "django.requests",    # Monitor view performance
-        "django.queries",     # Deep ORM observability
-        "django.template",    # Trace template rendering
-        
-        # Self-Healing Optimizations (ML)
-        "defer_columns",
-        "prefetch_relations",
+        "ingest",                       # Required for data delivery
+        "db.sqlite",                    # Record SQL queries executed with SQlite driver
+        "db.psycopg",                   # Record SQL queries executed with psycopg driver
+        "django.requests",              # Monitor view performance
+        "django.queries",               # Deep ORM observability
+        "django.template",              # Trace template rendering
+        "django.cli",                   # Monitor management commands
+        "django.columns",               # Track columns accesses
+        "django.relations",             # Track relations accessed
+        "taggit.relations",             # For taggit integration
+        "wagtail.page_render",          # For wagtail integration
+        "django.defer_columns",         # Automated columns deferring
+        "django.prefetch_relations",    # Automated N+1 resolution
     ],
     "deps": {
         "http_client": {
-            "dsn": "https://your-dsn-here@api.qorme.com/",
+            "dsn": "your-dsn-here",
         },
     },
 }
@@ -51,7 +56,7 @@ QORME = {
 
 ## 🏗️ Architecture Note
 
-The Django integration uses an `AppConfig.ready()` hook to initialize the core `TrackingManager`. 
+The Django integration uses an `AppConfig.ready()` hook to initialize the core `TrackingManager`.
 
 - **Auto-Instrumentation**: Qorme automatically patches Django's database backend, template signals, and request lifecycles.
 - **QueryContext Isolation**: Each HTTP request is wrapped in a dedicated `QueryContext` to ensure telemetry is cross-correlated within the request.
