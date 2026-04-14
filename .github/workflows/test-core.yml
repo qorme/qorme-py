@@ -56,8 +56,5 @@ jobs:
       - name: Set up Python ${{ matrix.python-version }}
         run: uv python install ${{ matrix.python-version }}
 
-      - name: Build Cython
-        run: make build-cython
-
       - name: Run Core Tests
         run: make test
