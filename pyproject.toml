@@ -9,11 +9,11 @@ authors = [
 license = "Apache-2.0"
 requires-python = ">=3.10"
 dependencies = [
-    "msgspec>=0.19",
+    "msgspec>=0.21",
     "typing-extensions>=4.12",
     "wrapt>=1.17",
     "xxhash>=3.5",
-    "isal; platform.machine == 'x86_64' or platform.machine == 'AMD64' or platform.machine == 'aarch64'",
+    "isal; (platform.machine == 'x86_64' or platform.machine == 'AMD64' or platform.machine == 'aarch64') and python_version < '3.14'",
     "httpx[http2]>=0.28",
     "httpx-retries>=0.4",
     "httpx-sse>=0.4",
