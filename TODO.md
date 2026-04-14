@@ -3,7 +3,9 @@
 Create Github issues for these.
 
 ## Pre-MVP
-- Update ingest test file
+- Set up package publishing workflow (See https://docs.astral.sh/uv/guides/package/#building-your-package)
+- Review/improve docs, check accuracy
+- Address type errors
 
 ### Integrations
 - Add unittest integration
@@ -24,6 +26,7 @@ Create Github issues for these.
 - Integration tests
 - Test and document that tracking can be disabled by setting the `QORME_ACTIVE` env var to False.
 - Cache results of get_model_string (weak_lru_cache)
+- Update ingest test file
 
 ## Post-MVP
 - Add pytest integration
