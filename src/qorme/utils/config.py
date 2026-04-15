@@ -154,11 +154,14 @@ class Config(dict):
 
         # Handle nested configuration
         if isinstance(value, dict):
+            types = self.types.get(attr)
+            if not isinstance(types, dict):
+                types = None
             value = Config(
                 name=name,
                 data=value,
                 defaults=self.defaults.get(attr, {}),
-                types=self.types.get(attr),
+                types=types,
             )
 
         # Cache the value

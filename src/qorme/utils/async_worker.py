@@ -1,7 +1,13 @@
 import asyncio
-import concurrent.futures
 import logging
 import threading
+import typing
+
+if typing.TYPE_CHECKING:
+    from collections.abc import Coroutine
+    from concurrent.futures import Future
+
+    from qorme.utils.config import Config
 
 logger = logging.getLogger(__name__)
 
@@ -27,14 +33,14 @@ class AsyncWorker:
 
     thread_name = "Qorme-AsyncWorker-EventLoopThread"
 
-    def __init__(self, config):
+    def __init__(self, config: "Config") -> None:
         self.config = config
-        self._loop = None
-        self._thread = None
+        self._loop: asyncio.AbstractEventLoop | None = None
+        self._thread: threading.Thread | None = None
         self._lock = threading.Lock()
         self._running = threading.Event()
 
-    def submit(self, coro) -> "concurrent.futures.Future":
+    def submit(self, coro: "Coroutine") -> "Future":
         """
         Schedule `coro` to run on the background event loop.
 
@@ -51,16 +57,17 @@ class AsyncWorker:
         return asyncio.run_coroutine_threadsafe(coro, self.loop)
 
     @property
-    def loop(self):
+    def loop(self) -> asyncio.AbstractEventLoop:
         """Return the event loop, starting it if necessary."""
         self._ensure_running()
+        assert self._loop is not None
         return self._loop
 
-    def is_running(self):
+    def is_running(self) -> bool:
         """Return True when the event loop is active and running."""
         return self._running.is_set()
 
-    def _ensure_running(self):
+    def _ensure_running(self) -> None:
         """Start the event loop if it's not already running."""
         if self.is_running():
             return
@@ -83,18 +90,19 @@ class AsyncWorker:
                     "event loop thread still not ready after %d s", self.config.startup_timeout
                 )
 
-    def _run(self):
+    def _run(self) -> None:
         """
         Thread target that creates and runs the event loop which runs
         until `loop.close()` is called from another thread via `close()`.
         """
         try:
             # Prefer uvloop where available for improved performance.
-            from uvloop import new_event_loop
+            import uvloop
         except ImportError:
-            new_event_loop = asyncio.new_event_loop
+            loop = asyncio.new_event_loop()
+        else:
+            loop = uvloop.new_event_loop()
 
-        loop = new_event_loop()
         # Make the created loop the current loop for this thread.
         asyncio.set_event_loop(loop)
         self._loop = loop
@@ -111,7 +119,7 @@ class AsyncWorker:
             self._close()
             self._loop = None
 
-    def _close(self):
+    def _close(self) -> None:
         """
         Attempt to cancel pending tasks and shutdown the event loop cleanly.
         This method should be called from the background thread when the loop exits.
@@ -129,7 +137,7 @@ class AsyncWorker:
         finally:
             loop.close()
 
-    def close(self):
+    def close(self) -> None:
         """Stop the event loop and wait for the thread to finish."""
         if not self.is_running():
             return
@@ -137,12 +145,15 @@ class AsyncWorker:
         with self._lock:
             if not self.is_running():
                 return
-            self._loop.call_soon_threadsafe(self._loop.stop)
-            self._thread.join(timeout=self.config.shutdown_timeout)
-            self._thread = None
+            if loop := self._loop:
+                loop.call_soon_threadsafe(loop.stop)
+                # Reference will be cleared in _run after loop stops.
+            if t := self._thread:
+                t.join(timeout=self.config.shutdown_timeout)
+                self._thread = None
 
 
-def _cancel_all_tasks(loop):
+def _cancel_all_tasks(loop: asyncio.AbstractEventLoop) -> None:
     """
     Cancel all pending tasks attached to `loop` and wait for them.
 

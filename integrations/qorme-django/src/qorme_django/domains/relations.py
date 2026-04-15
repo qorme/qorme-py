@@ -84,7 +84,8 @@ class RelationTracking(Domain):
             path = f"{rel.path}__{rel.from_field}"
         else:
             depth = 1
-        instance.__rel_info__ = path, depth, query_tracker.data.timestamp, query_tracker.data.uid
+        rel_info = path, depth, query_tracker.data.timestamp, query_tracker.data.uid
+        instance.__rel_info__ = rel_info  # ty: ignore[unresolved-attribute]
 
     def _wrap_field_descriptors(self):
         """

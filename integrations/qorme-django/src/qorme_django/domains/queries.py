@@ -37,7 +37,7 @@ def get_query_type(method_name: str) -> QueryType:
 
 
 def get_joined_instances(
-    query: "QuerySet", instance: "Model", select_related: bool | dict | None = None
+    query: "QuerySet | None", instance: "Model", select_related: bool | dict | None = None
 ) -> Iterable[tuple[str, "Model"]]:
     """
     Yield (field_name, related_instance) tuples for instances that were
@@ -48,7 +48,7 @@ def get_joined_instances(
     that were pre-populated by Django (e.g., when accessing through a
     reverse FK relation) but were NOT actually loaded via SQL JOIN.
     """
-    if not select_related:
+    if query is None or not select_related:
         # No select_related on this query (False or None), no joined instances
         return
 
@@ -195,7 +195,7 @@ class QueryTracking(Domain):
     def skip_query(self, query: QuerySet) -> bool:
         if get_query_context(None) is None:
             return True
-        self._track_model(query.model, query._query.select_related)
+        self._track_model(query.model, query.query.select_related)
         return not self._models[query.model._meta.label]
 
     def _track_model(self, model: type[Model], select_related: bool | dict[str, dict]) -> None:
@@ -210,13 +210,13 @@ class QueryTracking(Domain):
         for rel_name, sub_sel in select_related.items():
             field = model._meta.get_field(rel_name)
             rel_model = field.related_model
-            if issubclass(rel_model, Model):
+            if isinstance(rel_model, type) and issubclass(rel_model, Model):
                 self._track_model(rel_model, sub_sel)
 
     def on_new_instance(
         self,
         instance: "Model",
-        query_tracker: "ORMQuery",
+        query_tracker: "ORMQuery[QuerySet]",
         path: str,
         seen: set,
         select_related=None,
