@@ -113,3 +113,8 @@ max-complexity = 10
 
 [tool.ruff.lint.isort]
 known-first-party = ["qorme", "qorme_django"]
+
+[tool.ty.rules]
+all = "error"
+
+possibly-unresolved-reference = "ignore"
