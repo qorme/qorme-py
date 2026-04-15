@@ -143,7 +143,6 @@ class MLStore:
         # TODO: Move updates to dedicated queue if they block
         # async worker due to heavy CPU work.
         assert event.event == "ml.updates"
-        logger.debug(f"Received ML update event: {event.id}, data size: {len(event.data)} bytes")
         if event.data:
             data = base64.b64decode(event.data)
             self.update_models(data)
