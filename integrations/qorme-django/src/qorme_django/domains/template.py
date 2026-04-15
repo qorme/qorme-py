@@ -51,7 +51,7 @@ class TemplateTracking(Domain):
         ):
             query_tracker.data.template = template_info
 
-    def get_template_info(self):
+    def get_template_info(self) -> tb_utils.TracebackEntry | None:
         # TODO: Rewrite the loop in Cython or find a way without loop.
         template_info = None
         frame = sys._getframe()
