@@ -5,7 +5,6 @@ Create Github issues for these.
 ## Pre-MVP
 - Set up package publishing workflow (See https://docs.astral.sh/uv/guides/package/#building-your-package)
 - Review/improve docs, check accuracy
-- Address type errors
 
 ### Integrations
 - Add unittest integration
@@ -64,4 +63,4 @@ Create Github issues for these.
 - Patch drivers direvtly for connection tracking
 - Add query params hash domain
 - Lazy model patching
-
+- Address type errors
