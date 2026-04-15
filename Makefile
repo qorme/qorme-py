@@ -1,8 +1,3 @@
-.PHONY: build-cython
-
-# Default Python interpreter
-PYTHON := python
-
 lint:
 	uv run ruff check .
 	uv run black --check .
@@ -22,7 +17,7 @@ coverage:
 	uv run coverage report -m
 
 build-cython:
-	uv run pip install cython
+	uv run pip install cython==3.2.4
 	uv run cython src/qorme/utils/bitset.pyx
 	uv run cython src/qorme/utils/lru_cache.pyx
 	uv run cython src/qorme/utils/traceback.pyx
