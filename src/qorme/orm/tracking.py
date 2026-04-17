@@ -21,6 +21,8 @@ get_orm_query = _orm_query_var.get
 
 
 class ORMQuery(Generic[Q]):
+    """Represents an ORM query executed within a QueryContext."""
+
     __slots__ = "rows", "data", "context", "_query", "_token_var", "__weakref__"
 
     def __init__(self, query: Q, model: str, row_type: RowType, query_type: QueryType):

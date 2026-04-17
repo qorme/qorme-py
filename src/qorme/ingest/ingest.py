@@ -11,6 +11,11 @@ if TYPE_CHECKING:
 
 
 class Ingest(Domain):
+    """
+    Ingest domain responsible for collecting data by listening to various events.
+    It then enqueues it for processing and sending to the Qorme server.
+    """
+
     name = "ingest"
 
     __slots__ = "_queue"
@@ -50,6 +55,8 @@ class Ingest(Domain):
 
     def _query_done_handler(self, tracker: "ORMQuery") -> None:
         self.queue.enqueue("orm_queries", tracker.data)
+        # Enqueue rows after a delay since actual attribute access happens
+        # once results are returned to user.
         for rows in tracker.rows.values():
             self.queue.enqueue_after("rows", rows, delay=self.config.rows_wait_time)
 

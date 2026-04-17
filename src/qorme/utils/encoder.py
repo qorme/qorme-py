@@ -11,5 +11,5 @@ def enc_hook(obj: Any) -> Any:
     raise NotImplementedError(f"Objects of type {type(obj)} are not supported")
 
 
-def new_encoder():
+def new_encoder() -> msgspec.msgpack.Encoder:
     return msgspec.msgpack.Encoder(enc_hook=enc_hook)

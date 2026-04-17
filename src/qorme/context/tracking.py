@@ -22,6 +22,11 @@ class QueryContextLookupError(LookupError): ...
 
 
 class QueryContext:
+    """
+    Represents a logical operation in the application, such as a web request
+    or a background job, in which database queries are executed.
+    """
+
     __slots__ = "data", "deps", "_state", "_token_var"
 
     def __init__(

@@ -6,6 +6,8 @@ class DSNError(ValueError):
 
 
 class DSN:
+    """Data Source Name (DSN) for Qorme server connection."""
+
     __slots__ = "url", "api_key"
 
     def __init__(self, url: str, api_key: str):

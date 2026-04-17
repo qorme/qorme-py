@@ -11,6 +11,8 @@ if TYPE_CHECKING:
 
 
 class Payload(msgspec.Struct, omit_defaults=True):
+    """Payload structure sent to the Qorme server."""
+
     contexts: list[ContextData] = []
     orm_queries: list[ORMQueryData] = []
     rows: list[Rows] = []

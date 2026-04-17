@@ -13,6 +13,8 @@ from qorme.ingest.payload import Payload
 from qorme.utils.gzip import GzipCompressor
 
 if TYPE_CHECKING:
+    import msgspec
+
     from qorme.deps import Deps
     from qorme.utils.config import Config
 
@@ -21,6 +23,8 @@ logger = logging.getLogger(__name__)
 
 
 class Queue:
+    """Thread-safe queue that flushes accumulated data based on queue size or time thresholds."""
+
     def __init__(self, config: Config, deps: Deps) -> None:
         self.deps = deps
         self.config = config
@@ -191,22 +195,27 @@ class Queue:
 
 
 class Flusher:
-    def __init__(self, config: Config, deps: Deps):
+    """
+    Helper class responsible for encoding, compressing,
+    and sending payloads to the Qorme server.
+    """
+
+    def __init__(self, config: Config, deps: Deps) -> None:
         self.deps = deps
         self.config = config
-        self._encoder = None
+        self._encoder: msgspec.msgpack.Encoder | None = None
         self._enc_buffer = bytearray(config.enc_buffer_size)
         self._compressor = GzipCompressor(config.compress_level)
 
     @property
-    def encoder(self):
+    def encoder(self) -> msgspec.msgpack.Encoder:
         if not self._encoder:
             from qorme.utils.encoder import new_encoder
 
             self._encoder = new_encoder()
         return self._encoder
 
-    def flush(self, payload: Payload):
+    def flush(self, payload: Payload) -> None:
         start_time = time.perf_counter_ns()
         self.deps.events.on_process_payload(payload)
         self.encoder.encode_into(payload, self._enc_buffer)
@@ -243,7 +252,7 @@ class Flusher:
         compressed_size: int,
         start_time: float,
         processing_time: float,
-    ):
+    ) -> None:
         error = None
         try:
             fut.result()

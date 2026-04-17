@@ -20,6 +20,11 @@ logger = logging.getLogger(__name__)
 
 
 class Client:
+    """
+    HTTP client for communicating with the Qorme server, handling authentication,
+    retries, requests, and Server-Sent Events (SSE) connections.
+    """
+
     user_agent = f"Qorme-Python/{qorme_version}"
 
     def __init__(
@@ -32,12 +37,12 @@ class Client:
         self.config = config
         self.session_id = uuid4().hex
         self.async_worker = async_worker
-        self._httpx_client = None
+        self._httpx_client: httpx.AsyncClient | None = None
         self._transport = transport  # Transport to wrap, used for testing with mock transport
 
     @property
-    def httpx_client(self):
-        if not self._httpx_client:
+    def httpx_client(self) -> httpx.AsyncClient:
+        if self._httpx_client is None:
             import httpx
             import httpx_retries
 

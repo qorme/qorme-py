@@ -15,8 +15,9 @@ if TYPE_CHECKING:
     from qorme.utils.traceback import TracebackEntry
 
 
-# An ORM 'read' query e.g User.objects.filter(name='John')
 class ORMQueryData(msgspec.Struct, omit_defaults=True):
+    """Holds structured data about an ORM query."""
+
     timestamp: datetime
     uid: UUID
     context_ts: datetime
@@ -33,6 +34,8 @@ class ORMQueryData(msgspec.Struct, omit_defaults=True):
 
 
 class Relation(msgspec.Struct, omit_defaults=True):
+    """Represents a parent-child relationship between 2 queries."""
+
     from_model: str
     from_field: str
     # Indicates whether the associated query results from accessing a deferred field.
@@ -44,6 +47,8 @@ class Relation(msgspec.Struct, omit_defaults=True):
 
 
 class Rows(msgspec.Struct):
+    """Holds information about the rows returned by an ORM query."""
+
     timestamp: datetime
     query_uid: UUID
     path: str
