@@ -23,7 +23,7 @@ class DSN:
             raise DSNError("Missing API key")
         if not (host := parts.hostname):
             raise DSNError("Missing hostname")
-        return cls(f"https://{host}:{parts.port or 443}", api_key)
+        return cls(f"https://{host}:{parts.port or 443}{parts.path}", api_key)
 
     def __repr__(self):
         return f"DSN(url={self.url}, api_key=redacted)"

@@ -8,6 +8,7 @@ class TestDSN(unittest.TestCase):
         cases = [
             ("https://apikey@host", "https://host:443", "apikey", None),
             ("https://api-key@host:92", "https://host:92", "api-key", None),
+            ("https://api-key@host:92/sdk", "https://host:92/sdk", "api-key", None),
             ("http://apikey@host", None, None, DSNError),
             ("https://@host", None, None, DSNError),
             ("https://apikey@", None, None, DSNError),
