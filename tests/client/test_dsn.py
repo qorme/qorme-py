@@ -7,6 +7,7 @@ class TestDSN(unittest.TestCase):
     def test_parse(self):
         cases = [
             ("https://apikey@host", "https://host:443", "apikey", None),
+            ("//api-key@host", "https://host:443", "api-key", None),
             ("https://api-key@host:92", "https://host:92", "api-key", None),
             ("https://api-key@host:92/sdk", "https://host:92/sdk", "api-key", None),
             ("http://apikey@host", None, None, DSNError),

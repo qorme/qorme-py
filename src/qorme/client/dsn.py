@@ -17,7 +17,7 @@ class DSN:
     @classmethod
     def parse(cls, dsn: str) -> "DSN":
         parts = urlsplit(dsn)
-        if parts.scheme != "https":
+        if parts.scheme and parts.scheme != "https":
             raise DSNError("Invalid scheme %s, only https is supported", parts.scheme)
         if not (api_key := parts.username):
             raise DSNError("Missing API key")
