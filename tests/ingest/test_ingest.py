@@ -124,7 +124,7 @@ class TestIngestIntegration(unittest.TestCase):
         self.deps.events.on_context_created(mock_context)
 
         mock_query = {"uid": str(uuid4()), "sql": "SELECT 1"}
-        self.deps.events.on_query_executed(mock_query)
+        self.deps.events.on_sql_query_done(mock_query)
 
         mock_conn = Mock()
         mock_conn._self_data = {"uid": str(uuid4()), "db": "test"}

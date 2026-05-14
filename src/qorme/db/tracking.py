@@ -15,9 +15,9 @@ if TYPE_CHECKING:
 
 
 @contextmanager
-def record_interval():
+def record_interval(interval: TimeInterval | None = None):
     """Context manager that records a time interval."""
-    interval = TimeInterval(start=utcnow())
+    interval = interval or TimeInterval()
     try:
         yield interval
     finally:
@@ -68,10 +68,6 @@ class CursorProxy(wrapt.ObjectProxy):
         if not (context := get_query_context(None)):
             return execute(*args, **kwargs)
 
-        with record_interval() as time:
-            result = execute(*args, **kwargs)
-
-        traceback = None
         orm_query_uid = None
         orm_query_ts = None
         if orm_query := get_orm_query(None):
@@ -81,21 +77,26 @@ class CursorProxy(wrapt.ObjectProxy):
         else:
             traceback = context.deps.traceback.get_stack()
 
-        query = SQLQueryData(
+        data = SQLQueryData(
             uuid4(),
             context.data.uid,
             context.data.timestamp,
             self._self_conn_uid,
             args[0],
-            time,
+            TimeInterval(),
             traceback,
             orm_query_uid,
             orm_query_ts,
         )
         params = args[1] if len(args) > 1 else kwargs.get("parameters")
-        self._self_events.on_query_executed(query, params)
-        self._self_query_uid = query.uid
-        self._self_query_start_time = query.time.start
+        self._self_events.on_sql_query_started(data, params)
+        self._self_query_uid = data.uid
+        self._self_query_start_time = data.time.start
+
+        with record_interval(data.time):
+            result = execute(*args, **kwargs)
+
+        self._self_events.on_sql_query_done(data, params)
         return result
 
     def _fetch_started(self):

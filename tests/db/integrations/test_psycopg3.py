@@ -45,7 +45,7 @@ class PostgreSQLTestCase(unittest.TestCase):
         manager.deps.events.register_connection_created_handler(self.connection_created_handler)
 
         self.queries = []
-        manager.deps.events.register_query_executed_handler(self.query_executed_handler)
+        manager.deps.events.register_sql_query_done_handler(self.query_executed_handler)
 
         self.context = QueryContext(name="test_context", deps=manager.deps)
 

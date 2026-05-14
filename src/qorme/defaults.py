@@ -68,6 +68,11 @@ QORME_SETTINGS: dict[str, Any] = {
         "sqlite": {"handler": "qorme.db.integrations.sqlite.SQLiteTracking"},
         "psycopg": {"handler": "qorme.db.integrations.psycopg.PsycopgTracking"},
         "psycopg2": {"handler": "qorme.db.integrations.psycopg2.Psycopg2Tracking"},
+        "params_hash": {"handler": "qorme.db.domains.params_hash.ParamsHash"},
+        "result_hash": {
+            "handler": "qorme.db.domains.result_hash.ResultHash",
+            "driver": "",  # sqlite | psycopg
+        },
     },
     # Contrib
     "celery": {

@@ -26,9 +26,11 @@ class EventType(enum.Enum):
     QUERY_DONE = "QUERY_DONE"
     NEW_INSTANCE = "NEW_INSTANCE"
     CONNECTION_CREATED = "CONNECTION_CREATED"
-    QUERY_EXECUTED = "QUERY_EXECUTED"
+    SQL_QUERY_STARTED = "SQL_QUERY_STARTED"
+    SQL_QUERY_DONE = "SQL_QUERY_DONE"
     FETCH_STARTED = "FETCH_STARTED"
     FETCH_DONE = "FETCH_DONE"
+    SQL_RESULT_HASH_COMPUTED = "SQL_RESULT_HASH_COMPUTED"
     QUEUE_FLUSH = "QUEUE_FLUSH"
     PROCESS_PAYLOAD = "PROCESS_PAYLOAD"
 
@@ -154,15 +156,25 @@ class Events:
     def on_connection_created(self, *item: "EventItem") -> None:
         self.fire(EventType.CONNECTION_CREATED, *item)
 
-    # Query Executed
-    def register_query_executed_handler(self, handler: "EventHandler") -> None:
-        self._register_event_handler(EventType.QUERY_EXECUTED, handler)
+    # SQL Query Started
+    def register_sql_query_started_handler(self, handler: "EventHandler") -> None:
+        self._register_event_handler(EventType.SQL_QUERY_STARTED, handler)
 
-    def unregister_query_executed_handler(self, handler: "EventHandler") -> None:
-        self._unregister_event_handler(EventType.QUERY_EXECUTED, handler)
+    def unregister_sql_query_started_handler(self, handler: "EventHandler") -> None:
+        self._unregister_event_handler(EventType.SQL_QUERY_STARTED, handler)
 
-    def on_query_executed(self, *item: "EventItem") -> None:
-        self.fire(EventType.QUERY_EXECUTED, *item)
+    def on_sql_query_started(self, *item: "EventItem") -> None:
+        self.fire(EventType.SQL_QUERY_STARTED, *item)
+
+    # SQL Query Done
+    def register_sql_query_done_handler(self, handler: "EventHandler") -> None:
+        self._register_event_handler(EventType.SQL_QUERY_DONE, handler)
+
+    def unregister_sql_query_done_handler(self, handler: "EventHandler") -> None:
+        self._unregister_event_handler(EventType.SQL_QUERY_DONE, handler)
+
+    def on_sql_query_done(self, *item: "EventItem") -> None:
+        self.fire(EventType.SQL_QUERY_DONE, *item)
 
     # Fetch Started
     def register_fetch_started_handler(self, handler: "EventHandler") -> None:
@@ -183,6 +195,16 @@ class Events:
 
     def on_fetch_done(self, *item: "EventItem") -> None:
         self.fire(EventType.FETCH_DONE, *item)
+
+    # SQL result hash computed
+    def register_sql_result_hash_computed_handler(self, handler: "EventHandler") -> None:
+        self._register_event_handler(EventType.SQL_RESULT_HASH_COMPUTED, handler)
+
+    def unregister_sql_result_hash_computed_handler(self, handler: "EventHandler") -> None:
+        self._unregister_event_handler(EventType.SQL_RESULT_HASH_COMPUTED, handler)
+
+    def on_sql_result_hash_computed(self, *item: "EventItem") -> None:
+        self.fire(EventType.SQL_RESULT_HASH_COMPUTED, *item)
 
     # Queue Flush
     def register_queue_flush_handler(self, handler: "EventHandler") -> None:

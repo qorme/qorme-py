@@ -6,6 +6,8 @@ from uuid import UUID
 
 import msgspec
 
+from qorme.utils.datetime import utcnow
+
 from .types import DatabaseVendor
 
 if TYPE_CHECKING:
@@ -13,7 +15,7 @@ if TYPE_CHECKING:
 
 
 class TimeInterval(msgspec.Struct):
-    start: datetime
+    start: datetime = msgspec.field(default_factory=utcnow)
     end: datetime | None = None
 
 
@@ -37,5 +39,15 @@ class SQLQueryData(msgspec.Struct, omit_defaults=True):
     sql: str
     time: TimeInterval
     traceback: list[TracebackEntry]
+    params_hash: int | None = None  # Hash of the query parameters if available.
     orm_query_uid: UUID | None = None  # ORM query if any.
     orm_query_ts: datetime | None = None  # ORM query timestamp if linked to ORM query.
+
+    def is_select(self) -> bool:
+        return self.sql.lstrip()[:6].upper() == "SELECT"
+
+
+class SQLResultHash(msgspec.Struct, frozen=True):
+    sql_query_ts: datetime
+    sql_query_uid: UUID
+    value: int

@@ -5,7 +5,7 @@ from qorme.ingest.queue import Queue
 
 if TYPE_CHECKING:
     from qorme.context.tracking import QueryContext
-    from qorme.db.datastructures import SQLQueryData
+    from qorme.db.datastructures import SQLQueryData, SQLResultHash
     from qorme.db.tracking import ConnectionProxy
     from qorme.orm.tracking import ORMQuery
 
@@ -42,13 +42,19 @@ class Ingest(Domain):
         self.deps.events.register_context_created_handler(self._context_created_handler)
         self.deps.events.register_query_done_handler(self._query_done_handler)
         self.deps.events.register_connection_created_handler(self._connection_created_handler)
-        self.deps.events.register_query_executed_handler(self._query_executed_handler)
+        self.deps.events.register_sql_query_done_handler(self._sql_query_done_handler)
+        self.deps.events.register_sql_result_hash_computed_handler(
+            self._sql_result_hash_computed_handler
+        )
 
     def unregister_event_handlers(self):
         self.deps.events.unregister_context_created_handler(self._context_created_handler)
         self.deps.events.unregister_query_done_handler(self._query_done_handler)
         self.deps.events.unregister_connection_created_handler(self._connection_created_handler)
-        self.deps.events.unregister_query_executed_handler(self._query_executed_handler)
+        self.deps.events.unregister_sql_query_done_handler(self._sql_query_done_handler)
+        self.deps.events.unregister_sql_result_hash_computed_handler(
+            self._sql_result_hash_computed_handler
+        )
 
     def _context_created_handler(self, context: "QueryContext") -> None:
         self.queue.enqueue("contexts", context.data)
@@ -63,5 +69,8 @@ class Ingest(Domain):
     def _connection_created_handler(self, conn: "ConnectionProxy") -> None:
         self.queue.enqueue("connections", conn._self_data)
 
-    def _query_executed_handler(self, sql_query: "SQLQueryData", *_) -> None:
+    def _sql_query_done_handler(self, sql_query: "SQLQueryData", *_) -> None:
         self.queue.enqueue("sql_queries", sql_query)
+
+    def _sql_result_hash_computed_handler(self, result_hash: "SQLResultHash") -> None:
+        self.queue.enqueue("sql_result_hashes", result_hash)
