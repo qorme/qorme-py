@@ -85,6 +85,7 @@ class CursorProxy(wrapt.ObjectProxy):
             args[0],
             TimeInterval(),
             traceback,
+            None,
             orm_query_uid,
             orm_query_ts,
         )
