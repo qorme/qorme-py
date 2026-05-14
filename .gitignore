@@ -21,3 +21,6 @@ coverage_html/
 
 # SQLite
 *.sqlite3
+
+# VS code
+.vscode
